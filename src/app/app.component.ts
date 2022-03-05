@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    // this.loadData();
   }
 
   loadData() {
@@ -41,8 +41,12 @@ export class AppComponent implements OnInit {
   }
 
   onClick() {
-    if (!this.isValid()) {
+    if (!this.isValidAmountSelection()) {
       alert('should inform at least one selection');
+      return;
+    }
+    if (!this.isValidaTimeOfDay()) {
+      alert('should inform morning or night in the first position');
       return;
     }
     this.orderApiService.insertOrder(this.orderService.getOrderInput(this.vInput)).subscribe(res => {
@@ -51,8 +55,12 @@ export class AppComponent implements OnInit {
     });
   }
 
-  isValid() {
+  isValidAmountSelection() {
     return this.vInput.split(',').length > 1;
+  }
+
+  isValidaTimeOfDay() {
+    return this.vInput.split(',')[0] === 'morning' || this.vInput.split(',')[0] === 'night';
   }
 
 }
